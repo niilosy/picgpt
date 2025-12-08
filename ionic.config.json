@@ -1,0 +1,7 @@
+{
+  "name": "picgpt",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
