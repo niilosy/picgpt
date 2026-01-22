@@ -12,7 +12,7 @@ import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import "./App.css";
 import logo from "./assets/logo.png";
 
-const SERVER_UPLOAD_URL = "http://192.168.101.107:3000/analyze";
+const SERVER_UPLOAD_URL = "https://picgpt-backend.onrender.com/analyze"; //
 
 type Page = "home" | "main" | "pic" | "analysis" | "help";
 
