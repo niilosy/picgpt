@@ -5,17 +5,21 @@ import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 app.use(cors());
 app.use(bodyParser.json({ limit: "20mb" }));
 
+// Root route for testing
+app.get("/", (req, res) => {
+  res.send("Server is running!");
+});
+
+// Analyze endpoint
 app.post("/analyze", async (req, res) => {
   try {
     const { image } = req.body;
-
-    if (!image) {
-      return res.status(400).json({ error: "No image provided" });
-    }
+    if (!image) return res.status(400).json({ error: "No image provided" });
 
     const response = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
@@ -32,27 +36,25 @@ app.post("/analyze", async (req, res) => {
               {
                 type: "input_text",
                 text:
-                  "Analyze this image in detail. If it contains text, extract it. " +
-                  "Also describe what is visible and guess where it might have been taken."
+                  "Analyze this image in detail. If it contains text, extract it. Also describe what is visible and guess where it might have been taken.",
               },
               {
                 type: "input_image",
-                image_url: image
-              }
-            ]
-          }
-        ]
-      })
+                image_url: image,
+              },
+            ],
+          },
+        ],
+      }),
     });
 
     const json = await response.json();
 
     const output =
-      json.output?.[0]?.content?.find(c => c.type === "output_text")?.text ||
+      json.output?.[0]?.content?.find((c) => c.type === "output_text")?.text ||
       "No analysis returned.";
 
     res.json({ output });
-
   } catch (err) {
     console.error("Analyze error:", err);
     res.status(500).json({ error: "Image analysis failed" });
