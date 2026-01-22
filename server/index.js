@@ -1,8 +1,11 @@
-require("dotenv").config();
-const express = require("express");
-const fetch = require("cross-fetch");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+import dotenv from "dotenv";
+dotenv.config();
+
+// Import other packages
+import express from "express";
+import fetch from "cross-fetch";
+import bodyParser from "body-parser";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
