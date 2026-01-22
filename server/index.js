@@ -4,39 +4,63 @@ const fetch = require("cross-fetch");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-
 const app = express();
+const PORT = process.env.PORT || 3000;
+
 app.use(cors());
-app.use(bodyParser.json({ limit: "10mb" }));
+app.use(bodyParser.json({ limit: "20mb" }));
 
 app.post("/analyze", async (req, res) => {
-  const { image } = req.body;
+  try {
+    const { image } = req.body;
 
-  const response = await fetch("https://api.openai.com/v1/responses", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
-    },
-    body: JSON.stringify({
-      model: "gpt-4o-mini",
-      input: [
-        {
-          role: "user",
-          content: [
-            { type: "input_image", image_url: image },
-            { type: "input_text", text: "Describe what’s in this photo. Give a guess where in the world you think it was taken" }
-          ]
-        }
-      ]
-    })
-  });
+    if (!image) {
+      return res.status(400).json({ error: "No image provided" });
+    }
 
-  const json = await response.json();
-  const output =
-    json.output?.[0]?.content?.find(c => c.type === "output_text")?.text;
+    const response = await fetch("https://api.openai.com/v1/responses", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        input: [
+          {
+            role: "user",
+            content: [
+              {
+                type: "input_text",
+                text:
+                  "Analyze this image in detail. If it contains text, extract it. " +
+                  "Also describe what is visible and guess where it might have been taken."
+              },
+              {
+                type: "input_image",
+                image_url: image
+              }
+            ]
+          }
+        ]
+      })
+    });
 
-  res.json({ output });
+    const json = await response.json();
+
+    const output =
+      json.output?.[0]?.content?.find(c => c.type === "output_text")?.text ||
+      "No analysis returned.";
+
+    res.json({ output });
+
+  } catch (err) {
+    console.error("Analyze error:", err);
+    res.status(500).json({ error: "Image analysis failed" });
+  }
 });
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
