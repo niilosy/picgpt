@@ -1,7 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
-
-// Import other packages
 import express from "express";
 import fetch from "cross-fetch";
 import bodyParser from "body-parser";
@@ -25,7 +21,7 @@ app.post("/analyze", async (req, res) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
