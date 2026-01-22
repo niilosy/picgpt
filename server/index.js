@@ -36,7 +36,7 @@ app.post("/analyze", async (req, res) => {
               {
                 type: "input_text",
                 text:
-                  "Analyze this image in detail. If it contains text, extract it. Also describe what is visible and guess where it might have been taken.",
+                  "Describe what’s in this photo. Give a guess where in the world you think it was taken ",
               },
               {
                 type: "input_image",
