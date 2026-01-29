@@ -1,2 +1,5 @@
 App published at https://niilosy.github.io/picgpt/
-It analyzes your photo with OpenAI API, with the prompt "Describe what’s in this photo. Give a guess where in the world you think it was taken ".
+
+The app analyzes your chosen photo with OpenAI API, with the prompt "Describe what’s in this photo. Give a guess where in the world you think it was taken". 
+
+It may take up to 1 minute to analyze sometimes.
