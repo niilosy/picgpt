@@ -18,6 +18,6 @@ The backend was built with Node.js and Express. It exposes a REST endpoint at /a
 
 The prompt that goes with the photos to OpenAI is "Describe what’s in this photo. Give a guess where in the world you think it was taken", I thought it would be cool to see how well the AI could estimate where it was taken (not very well).
 
-The frontend is deployed on GitHub Pages and the backend on Render. 
+The frontend is deployed on GitHub Pages and the backend on Render. Because I'm on a free tier of render, the server will fall asleep sometimes and make the requests take longer.
 
 All an all I was happy with the final project and I think it works just like the prototypes I made earlier.
